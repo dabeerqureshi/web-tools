@@ -5,6 +5,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { getToolsByCategory, toolsRegistry } from "@/config/tools-registry";
 import { ChevronRight, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import { JsonLd } from "@/components/seo/json-ld";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -26,9 +27,26 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     return { title: "Category Not Found" };
   }
 
+  const url = `${siteConfig.url}/category/${category.slug}`;
+
   return {
     title: `${category.name} - Free Online Utilities | ${siteConfig.name}`,
     description: category.description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${category.name} - Free Online Utilities | ${siteConfig.name}`,
+      description: category.description,
+      url,
+      type: "website",
+      siteName: siteConfig.name,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${category.name} - Free Online Utilities | ${siteConfig.name}`,
+      description: category.description,
+    },
   };
 }
 
@@ -41,9 +59,30 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const tools = getToolsByCategory(slug);
+  const categoryUrl = `${siteConfig.url}/category/${category.slug}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteConfig.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: category.name,
+        item: categoryUrl,
+      },
+    ],
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <JsonLd data={breadcrumbSchema} />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-xs text-zinc-500 mb-6">
         <Link href="/" className="hover:text-zinc-900 dark:hover:text-white transition-colors">

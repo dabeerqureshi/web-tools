@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "DevToolBox",
   shortName: "DevToolBox",
   description: "Free, lightning-fast, and 100% private developer and designer web tools. Everything runs locally in your browser with zero server uploads.",
-  url: "https://devtools-web.vercel.app", // replace with actual domain upon launch
-  ogImage: "https://devtools-web.vercel.app/og.png",
+  url: "https://usedevtoolbox.com",
+  ogImage: "https://usedevtoolbox.com/og.png",
   creator: "DevToolBox Team",
   categories: [
     {
